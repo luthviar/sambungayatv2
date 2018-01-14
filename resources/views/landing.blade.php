@@ -7,16 +7,35 @@
     <meta name="author" content="">
     <link rel="icon" href="{{ URL::asset('img/favicon.ico') }}">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Sambungayat V2</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{{ URL::asset('css/starter-template.css') }}" rel="stylesheet">
+
+    <link href="{{ URL::asset('css/metro/style.css') }}" rel="stylesheet">
+
+    <script src="{{ URL::asset('js/jquery-1.11.1.min.js') }}" type="text/javascript"></script>
+    <script>
+
+    </script>
 </head>
 
 <body>
+<div id="loading">
+    <div id="loading-container" class="fullwidth">
+        <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <p id='loading-text'>Loading...</p>
+    </div>
+</div>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="#">Navbar</a>
@@ -54,14 +73,15 @@
 <main role="main" class="container">
 
     <div class="starter-template">
-
+        <form method="POST" action="{{ url(action('GameController@next_question', $no_surat)) }}">
+            {{ csrf_field() }}
             <h1>Question</h1>
             <p class="lead">
-
+                <input name="id_question" value="{{ $thestring['question']->id }}" hidden>
+                <input name="id_attempt" value="{{ Session::get('id_attempt') }}" hidden>
                 @foreach($thestring['lengkap'] as $lengkap)
                     @if($thestring['true_answer']->word == $lengkap->word)
                         <span class="pull-right">
-                            {{--,,,,<span style="color: white">{{ $lengkap->word }}</span>--}}
                             ٠٠٠
                         </span>
                     @else
@@ -72,23 +92,68 @@
 
             <h1>Opsi</h1>
             @foreach($thestring['options'] as $key=>$option)
-                <button type="button" name="option" class="btn btn-outline-primary">{{ $option }}</button>
+                <button type="submit" name="option"
+                        class="the-option btn btn-outline-primary" value="{{ $option }}">{{ $option }}</button>
             @endforeach
-            <h1>True</h1>
-            <p class="lead">
-                {{ $thestring['true_answer']->word }}
-            </p>
+            {{--<h1>True</h1>--}}
+            {{--<p class="lead">--}}
+                {{--{{ $thestring['true_answer']->word }}--}}
+            {{--</p>--}}
+        </form>
 
+        <form method="POST" action="{{ url(action('GameController@finish_all',Session::get('id_attempt'))) }}">
+            {{ csrf_field() }}
+            <button type="submit" name="finish" class="btn btn-outline-primary">Selesai Bermain</button>
+        </form>
     </div>
 
 </main><!-- /.container -->
-
+<div id="loadingz" style="display: none; background-color: black;">
+    <div id="loading-container" class="fullwidth" style="background-color: black;">
+        <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <p id='loading-text'>Loading...</p>
+    </div>
+</div>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="{{ URL::asset('js/jquery-3.2.1.slim.min.js') }}" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="{{ URL::asset('js/jquery-3.2.1.slim.min.js') }}"><\/script>')</script>
+{{--<script src="{{ URL::asset('js/jquery-3.2.1.js') }}"  type="text/javascript"></script>--}}
+{{--<script>window.jQuery || document.write('<script src="{{ URL::asset('js/jquery-3.2.1.slim.min.js') }}"><\/script>')</script>--}}
 <script src="{{ URL::asset('js/popper.min.js') }}"></script>
 <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $("button").click(function(){
+            $("#loadingz").fadeIn();
+        });
+    });
+</script>
+<script>
+
+    $(window).load(function(){
+
+        setTimeout(function() {
+                $("#loading").fadeOut(function(){
+
+                    $(this).remove();
+                    $('body').removeAttr('style');
+                })
+            }
+            , 300);
+    });
+
+
+    jQuery(document).ready(function() {
+        // initiate layout and plugins
+        App.init();
+
+    });
+</script>
 </body>
 </html>

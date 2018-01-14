@@ -80,7 +80,7 @@ class Quran extends Model
         }
 
         // save it to array, to pass it to controller
-        $array['question'] = $question;
+
         $array['true_answer'] = $true_answer;
         $array['lengkap'] = $lengkap;
 
@@ -102,6 +102,8 @@ class Quran extends Model
                 'ayat_surat' => $random_ayat,
             ]
         );
+        $array['question'] = Question::where('id',$id_question)->first();
+
 
         // prepare and save question_options to save to DB
         $max_pg = 8;
