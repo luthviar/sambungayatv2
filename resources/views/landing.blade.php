@@ -54,27 +54,31 @@
 <main role="main" class="container">
 
     <div class="starter-template">
-        <h1>Question</h1>
-        <p class="lead">
-            @foreach($thestring['question'] as $question)
-                {{ $question->word }}
+
+            <h1>Question</h1>
+            <p class="lead">
+
+                @foreach($thestring['lengkap'] as $lengkap)
+                    @if($thestring['true_answer']->word == $lengkap->word)
+                        <span class="pull-right">
+                            {{--,,,,<span style="color: white">{{ $lengkap->word }}</span>--}}
+                            ٠٠٠
+                        </span>
+                    @else
+                        {{ $lengkap->word }}
+                    @endif
+                @endforeach
+            </p>
+
+            <h1>Opsi</h1>
+            @foreach($thestring['options'] as $key=>$option)
+                <button type="button" name="option" class="btn btn-outline-primary">{{ $option }}</button>
             @endforeach
-        </p>
-        <h1>Answer</h1>
-        <p class="lead">
-            {{ $thestring['true_answer']->word }}
-        </p>
-        <h1>Lengkap</h1>
-        <p class="lead">
-            @foreach($thestring['lengkap'] as $lengkap)
-                @if($thestring['true_answer']->word == $lengkap->word)
-                    ....
-                @else
-                    {{ $lengkap->word }}
-                @endif
-            @endforeach
-            {{--{{ $thestring['true_answer'] }}--}}
-        </p>
+            <h1>True</h1>
+            <p class="lead">
+                {{ $thestring['true_answer']->word }}
+            </p>
+
     </div>
 
 </main><!-- /.container -->

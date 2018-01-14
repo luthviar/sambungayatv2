@@ -19,4 +19,4 @@ Route::get('/', 'GameController@index');
 
 Route::get('surah/{no_surat}', 'GameController@get_the_surah');
 
-Route::get('question/{no_surat}', 'GameController@get_the_question');
+Route::get('question/surat/{no_surat}', 'GameController@get_the_question');
